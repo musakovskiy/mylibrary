@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {{% block content %}
-  <h1>Literary Format List</h1>
+  <h1>Literary Format List   <a style="float: right" href="{% url 'catalog:literary-format-create' %}">add new format</a></h1>
   <ul>
    {% if literary_format_list %}
      {% for literary_format in literary_format_list %}

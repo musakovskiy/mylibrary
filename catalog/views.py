@@ -2,6 +2,7 @@ from django.http import HttpRequest, HttpResponse
 from .models import Book, Author, LiteraryFormat
 from django.shortcuts import render
 from django.views import generic
+from django.urls import reverse_lazy
 
 
 def index(request: HttpRequest) -> HttpResponse:
@@ -25,12 +26,18 @@ class LiteraryFormatListView(generic.ListView):
     context_object_name = 'literary_format_list'
 
 
-# def literary_format_list_view(request: HttpRequest) -> HttpResponse:
-# literary_format_list = LiteraryFormat.objects.all()
-# context = {
-# "literary_format_list": literary_format_list
-# }
-# return render(request, "catalog/literary_format_list.html", context=context)
+class LiteraryFormatCreateView(generic.CreateView):
+    model = LiteraryFormat
+    fields = "__all__"
+    success_url = reverse_lazy("catalog:literary-format-list")
+    template_name = "catalog/literary_format_form.html"
+
+
+class LiteraryFormatUpdateView(generic.UpdateView):
+    model = LiteraryFormat
+    fields = "__all__"
+    success_url = reverse_lazy("catalog:literary-format-list")
+    template_name = "catalog/literary_format_form.html"
 
 
 class BookListView(generic.ListView):
@@ -58,5 +65,5 @@ def test_session_view(request: HttpRequest) -> HttpResponse:
         "<h1>Test Session</h1>"
         f"<h4>Session Data: {request.session['book']}</4>"
         f"<h3>New Session Data: {request.session['format']}"
-        f" <h4>You vizit this site : { num_vizit } times </h4>"
+        f" <h4>You vizit this site : {num_vizit} times </h4>"
     )
